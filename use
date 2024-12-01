@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Pokemon {
+    int id;
+    String name;
+    int height;
+    int weight;
+
+    public Pokemon(int id, String name, int height, int weight) {
+        this.id = id;
+        this.name = name;
+        this.height = height;
+        this.weight = weight;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + "\nName: " + name + "\nHeight: " + height + " decimetres\nWeight: " + weight + " hectograms\n";
+    }
+}
+
+public class Pokedex {
+    public static void main(String[] args) {
+        List<Pokemon> pokedex = createPokedex();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to the Pokédex!");
+        while (true) {
+            System.out.print("Enter Pokémon name or ID (or type 'exit' to quit): ");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                Pokemon foundPokemon = findPokemon(pokedex, input);
+                if (foundPokemon != null) {
+                    System.out.println("\nPokémon Details:");
+                    System.out.println(foundPokemon);
+                } else {
+                    System.out.println("Pokémon not found. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+
+        scanner.close();
+        System.out.println("Thank you for using the Pokédex!");
+    }
+
+    private static List<Pokemon> createPokedex() {
+        List<Pokemon> pokedex = new ArrayList<>();
+        pokedex.add(new Pokemon(1, "Bulbasaur", 7, 69));
+        pokedex.add(new Pokemon(4, "Charmander", 6, 85));
+        pokedex.add(new Pokemon(7, "Squirtle", 5, 90));
+        pokedex.add(new Pokemon(25, "Pikachu", 4, 60));
+        pokedex.add(new Pokemon(6, "Charizard", 17, 905));
+        pokedex.add(new Pokemon(3, "Venusaur", 20, 1000));
+        pokedex.add(new Pokemon(9, "Blastoise", 16, 855));
+        pokedex.add(new Pokemon(26, "Raichu", 8, 300));
+        pokedex.add(new Pokemon(39, "Jigglypuff", 5, 55));
+        pokedex.add(new Pokemon(94, "Gengar", 15, 405));
+        pokedex.add(new Pokemon(130, "Gyarados", 65, 2350));
+        pokedex.add(new Pokemon(143, "Snorlax", 21, 4600));
+        pokedex.add(new Pokemon(150, "Mewtwo", 20, 1220));
+        pokedex.add(new Pokemon(151, "Mew", 4, 40));
+        pokedex.add(new Pokemon(52, "Meowth", 4, 42));
+        pokedex.add(new Pokemon(133, "Eevee", 3, 65));
+        pokedex.add(new Pokemon(135, "Jolteon", 8, 245));
+        pokedex.add(new Pokemon(136, "Flareon", 9, 250));
+        pokedex.add(new Pokemon(134, "Vaporeon", 10, 290));
+        pokedex.add(new Pokemon(144, "Articuno", 17, 554));
+        return pokedex;
+    }
+
+    private static Pokemon findPokemon(List<Pokemon> pokedex, String input) {
+        try {
+            int id = Integer.parseInt(input);
+            for (Pokemon pokemon : pokedex) {
+                if (pokemon.id == id) {
+                    return pokemon;
+                }
+            }
+        } catch (NumberFormatException e) {
+            for (Pokemon pokemon : pokedex) {
+                if (pokemon.name.equalsIgnoreCase(input)) {
+                    return pokemon;
+                }
+            }
+        }
+        return null;
+    }
+}
